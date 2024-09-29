@@ -27,6 +27,8 @@ export default new Vuex.Store({
     // 点击不同的菜单，改变面包屑数组
     navListChange(state, payload) {
       state.currentNav = payload.path;
+      document.title = payload.title;
+
       console.log(payload, "点击的菜单");
       for (var i = 0; i < state.navList.length; i++) {
         if (state.navList[i].path == payload.path) {

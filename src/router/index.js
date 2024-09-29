@@ -54,7 +54,7 @@ const routes = [
   {
     path: "/",
     name: "homePage",
-    title: "傅红福",
+    title: "fhf组件",
     icon:'aichong06',
     component: () => import("../views/home/homePage"),
     children: [
@@ -210,14 +210,14 @@ const routes = [
         icon:'m-gundongwenzi',
         component: () => import("@/views/labCom/lab-scrollMessage/index.vue"),
       },
-      {
-        path: "powerOutageMonitoring220kV",
-        name: "powerOutageMonitoring220kV",
-        title: "powerOutageMonitoring220kV",
-        // isHidden:true,
-        icon:'m-gundongwenzi',
-        component: () => import("@/views/labCom/powerOutageMonitoring220kV/components/htTest.vue"),
-      },
+      // {
+      //   path: "powerOutageMonitoring220kV",
+      //   name: "powerOutageMonitoring220kV",
+      //   title: "powerOutageMonitoring220kV",
+      //   // isHidden:true,
+      //   icon:'m-gundongwenzi',
+      //   component: () => import("@/views/labCom/powerOutageMonitoring220kV/components/htTest.vue"),
+      // },
       {
         path: "commonTest",
         name: "commonTest",

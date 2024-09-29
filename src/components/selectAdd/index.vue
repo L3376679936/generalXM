@@ -115,7 +115,7 @@ export default {
       });
     },
     visibleChange(visible, refName) {
-      this.$nextTick(() => {
+      // this.$nextTick(() => {
         if (visible) {
           const ref = this.$refs[refName];
           let popper = ref.$refs.popper;
@@ -149,7 +149,7 @@ export default {
             };
           }
         }
-      });
+      // });
     },
   },
 };

@@ -104,6 +104,7 @@ export default {
       // console.log(path,"面包屑路径");
       this.clickEveryNav(path);
       this.$router.push("/" + this.currentNav);
+      // 更改浏览器选项卡名称
     },
   },
 };
