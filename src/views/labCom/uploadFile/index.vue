@@ -383,32 +383,6 @@ export default {
             }
 
 
-            // let newXlsx1s = []
-            // let newXlsx2s = []
-            // for (let i = 0; i < newXlsx1.length; i++) {
-            //     for (let k in newXlsx1[i]) {
-            //         if (newXlsx1[i][k] !== "出清电量（日前）" && newXlsx1[i][k] !== "出清电价（日前）") {
-            //             newXlsx1s.push(newXlsx1[i][k])
-            //             newXlsx2s.push(newXlsx2[i][k])
-            //         }
-            //     }
-            // }
-            // console.log(newXlsx1,'newXlsx1')
-            // console.log(newXlsx1s,'newXlsx1s')
-            // let times = []
-            // let newXlsx2List = []
-            // let newXlsx1List = []
-            // // console.log(newXlsx1,'newXlsx1')
-            // // console.log(newXlsx2,'newXlsx2')
-            // for (let i = 1; i < 7; i++) {
-            //     times.push(time.slice((i - 1) * 16, i * 16))
-            //     newXlsx1List.push(newXlsx1s.slice((i - 1) * 16, i * 16))
-            //     newXlsx2List.push(newXlsx2s.slice((i - 1) * 16, i * 16))
-            // }
-            // console.log(times)
-
-            // console.log(newXlsx1List);
-            // console.log(newXlsx2List);
 
             let tableData = [
                 [{}, {}],
