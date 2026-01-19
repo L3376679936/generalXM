@@ -127,7 +127,6 @@ export default {
   mounted() {
     this.priorityPay()
     // 进入页面进全屏
-    var wscript = new ActiveXObject("WScript.Shell");
             // if (wscript !== null) {
             //     wscript.SendKeys("{F11}");
             // }

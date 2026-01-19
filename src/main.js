@@ -4,13 +4,13 @@ import App from "./App.vue";
 import routes from "./router";
 import VueRouter from 'vue-router'
 import store from "./store";
-import "./styles/index.scss";
 import '@/mock/data.js'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 
-
+import "./styles/index.scss";
+import './styles/element-variables.scss'
 // 引入echarts
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;

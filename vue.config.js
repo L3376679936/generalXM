@@ -4,6 +4,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = defineConfig({
   transpileDependencies: true,
+
   chainWebpack: (config) => {
     // 1. 获取图片规则
     const imgRule = config.module.rule("images");
@@ -47,7 +48,14 @@ module.exports = defineConfig({
         QRCode: "qrcode" // 忽略引入 qrcode 库
       }]);
   },
-
+ css: {
+    loaderOptions: {
+      sass: {
+        // 全局注入变量文件，注意 sass-loader@7.x 用 `data`，高版本用 `prependData`
+        data: `@import "~@/styles/element-variables.scss";`
+      }
+    }
+  },
   devServer: {
     headers: {
       "Access-Control-Allow-Origin": "*",

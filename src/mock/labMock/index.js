@@ -19,7 +19,7 @@ let template = (option) => {
         {
           "id|+1": 1,
           // mock单位名称怎么写？
-          batchName: "@cname",
+          batchName: "你好",
           areaCode: "@province()",
           unitCode: "@county(true)",
           validTime: `@date()~@date()`,

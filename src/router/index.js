@@ -228,4 +228,27 @@ const routes = [
     ],
   },
 ];
+
+// 创建路由实例
+const router = new VueRouter({
+  mode: "history",
+  routes,
+});
+
+// 全局路由守卫，为所有路由添加统一参数
+router.beforeEach((to, from, next) => {
+  const globalParam = {name:'liuaobo'}; // 替换为实际需要的值
+  if (!to.query.globalParam) {
+    next({
+      ...to,
+      query: {
+        ...to.query,
+        globalParam,
+      },
+    });
+  } else {
+    next();
+  }
+});
+
 export default routes;

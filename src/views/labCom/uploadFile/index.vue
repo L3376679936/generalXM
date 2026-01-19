@@ -659,10 +659,10 @@ export default {
                     // console.log(_this.arrData,'_this')
                     // console.log(_this.arrHeader,'_thish')
 
-                    // _this.outdataExport = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); //转换数据
-                    // console.log(_this.outdataExport, "outdataoutdata")
-                    // this.tableToHtml(XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]]))
-                    // console.log(this.outdata, "outdataoutdata");
+                    _this.outdataExport = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); //转换数据
+                    console.log(_this.outdataExport, "outdataoutdata")
+                    this.tableToHtml(XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]]))
+                    console.log(this.outdata, "outdataoutdata");
                 };
                 reader.readAsArrayBuffer(f);
             };
@@ -685,7 +685,7 @@ export default {
 }
 
 .titleHead {
-  color: rgba(64, 158, 255);
+  color: rgba(64, 158, 255,1);
   font-size: 32px;
   font-weight: 700;
 }

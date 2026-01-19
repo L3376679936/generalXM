@@ -1,18 +1,18 @@
-// import Vue from "vue";
+import Vue from "vue";
 
 let tooltipDom;
 
-// Vue.directive("ellipsis", {
-//   inserted:(el, bindings)=> {
-//     bindEvent(el, bindings);
-//   },
-//   componentUpdated:(el, bindings)=> {
-//     bindEvent(el, bindings);
-//   },
-//   unbind:()=> {
-//     removeTooltip();
-//   },
-// });
+Vue.directive("ellipsis", {
+  inserted:(el, bindings)=> {
+    bindEvent(el, bindings);
+  },
+  componentUpdated:(el, bindings)=> {
+    bindEvent(el, bindings);
+  },
+  unbind:()=> {
+    removeTooltip();
+  },
+});
 
 function bindEvent(el, bindings) {
   // 先移除上一次绑定的事件

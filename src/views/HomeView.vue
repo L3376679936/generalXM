@@ -18,6 +18,7 @@
         prop="address"
         label="地址">
       </el-table-column>
+      
     </el-table>
  
 <HelloWorld  >

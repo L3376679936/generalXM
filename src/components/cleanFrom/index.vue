@@ -40,41 +40,95 @@ value: "orgName" ,noSort:true}} @事件 { getDataInit : {Function()}
       <div class="table-wrap" id="table-wrap" ref="tableWrap">
         <!-- :style="height==='0'?{height:'100%'}:{height:height}"
             :height="height==='0'?'':height" -->
-        <el-table v-loading="loading" ref="crudForm" :row-key="getRowKey" :data="tableData"
-          :summary-method="(e) => totalValue" :show-summary="totalValue.length === 0 ? false : true"
-          @selection-change="handleSelectionChange" @sort-change="sortChange" @cell-click="cellClick"
-          header-row-class-name="table-header" cell-class-name="table-body-td" :cell-style="columnStyle"
-          :row-class-name="rowClassName" border :stripe="isStripe" >
-          <el-table-column v-if="showIndex" type="index" width="50" align="center" />
-          <el-table-column v-if="showCheckbox" type="selection" width="55" align="center" />
+        <el-table
+          v-loading="loading"
+          ref="crudForm"
+          :row-key="getRowKey"
+          :data="tableData"
+          :summary-method="(e) => totalValue"
+          :show-summary="totalValue.length === 0 ? false : true"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
+          @cell-click="cellClick"
+          header-row-class-name="table-header"
+          cell-class-name="table-body-td"
+          :cell-style="columnStyle"
+          :row-class-name="rowClassName"
+          border
+          :stripe="isStripe"
+     :span-method="(param)=>objectSpanMethod(param,tableData)"
 
-          <template v-for="(item, index) in fieldList.filter((item) => !item.hidden)">
+        >
+          <el-table-column
+            v-if="showIndex"
+            type="index"
+            width="50"
+            align="center"
+          />
+          <el-table-column
+            v-if="showCheckbox"
+            type="selection"
+            width="55"
+            align="center"
+          />
+
+          <template
+            v-for="(item, index) in fieldList.filter((item) => !item.hidden)"
+          >
             <!-- align="center" -->
             <!-- :render-header="renderHeader" -->
-            <el-table-column v-if="item.show" :key="index" :label="item.name" :prop="item.value" :width="item.width"
-              show="true" :sortable="item.noSort ? false : 'custom'" :formatter="item.formatter ? item.formatter : null"
-              :sort-by="item.sortBy ? item.sortBy : item.value" show-tooltip-when-overflow>
+            <el-table-column
+              v-if="item.show"
+              :key="index"
+              :label="item.name"
+              :prop="item.value"
+              :width="item.width"
+              show="true"
+              :sortable="item.noSort ? false : 'custom'"
+              :formatter="item.formatter ? item.formatter : null"
+              :sort-by="item.sortBy ? item.sortBy : item.value"
+              show-tooltip-when-overflow
+            >
               <template slot-scope="scope">
-                <el-button class="click_cell" v-if="item.type === 'link'" type="text" size="small"
-                  @click="item.clickFn(scope.row)">{{
-        item.formatter
-          ? item.formatter(scope.row)
-          : scope.row[item.value]
-      }}</el-button>
-                <el-input v-else-if="item.type === 'input'" v-model="scope.row[item.value]" size="mini"></el-input>
-                <a v-else-if="item.type === 'aLink'" :href="scope.row[item.url]" :download="scope.row[item.value]">{{
-        scope.row[item.value] }}</a>
+                <el-button
+                  class="click_cell"
+                  v-if="item.type === 'link'"
+                  type="text"
+                  size="small"
+                  @click="item.clickFn(scope.row)"
+                  >{{
+                    item.formatter
+                      ? item.formatter(scope.row)
+                      : scope.row[item.value]
+                  }}</el-button
+                >
+                <el-input
+                  v-else-if="item.type === 'input'"
+                  v-model="scope.row[item.value]"
+                  size="mini"
+                ></el-input>
+                <a
+                  v-else-if="item.type === 'aLink'"
+                  :href="scope.row[item.url]"
+                  :download="scope.row[item.value]"
+                  >{{ scope.row[item.value] }}</a
+                >
                 <template v-else>{{
-        item.formatter
-          ? item.formatter(scope.row)
-          : scope.row[item.value]
-      }}</template>
+                  item.formatter
+                    ? item.formatter(scope.row)
+                    : scope.row[item.value]
+                }}</template>
               </template>
             </el-table-column>
           </template>
 
-          <el-table-column :fixed="fixed" :width="tableOptionWidth" :label="tableOptionName" align="left"
-            v-if="showColumnHandle">
+          <el-table-column
+            :fixed="fixed"
+            :width="tableOptionWidth"
+            :label="tableOptionName"
+            align="left"
+            v-if="showColumnHandle"
+          >
             <template slot-scope="scope">
               <slot name="tableOption" :row="scope.row" />
             </template>
@@ -82,12 +136,32 @@ value: "orgName" ,noSort:true}} @事件 { getDataInit : {Function()}
 
           <el-table-column width="40" :fixed="fixed" v-if="showColumnSetting">
             <template slot="header">
-              <el-popover placement="bottom" min-width="80" trigger="click" popper-class="col-setting-popover">
-                <el-button class="set_btn" slot="reference" type="text" icon="el-icon-setting"
-                  style="padding: 0; border-color: #f1f1f1" title="展示列设置"></el-button>
+              <el-popover
+                placement="bottom"
+                min-width="80"
+                trigger="click"
+                popper-class="col-setting-popover"
+              >
+                <el-button
+                  class="set_btn"
+                  slot="reference"
+                  type="text"
+                  icon="el-icon-setting"
+                  style="padding: 0; border-color: #f1f1f1"
+                  title="展示列设置"
+                ></el-button>
                 <div class="col-setting-title">展示列设置</div>
-                <el-checkbox-group v-model="colOptions" :min="1" class="col-setting-group">
-                  <el-checkbox v-for="item in colSelect" :label="item" :key="item">{{ item }}</el-checkbox>
+                <el-checkbox-group
+                  v-model="colOptions"
+                  :min="1"
+                  class="col-setting-group"
+                >
+                  <el-checkbox
+                    v-for="item in colSelect"
+                    :label="item"
+                    :key="item"
+                    >{{ item }}</el-checkbox
+                  >
                 </el-checkbox-group>
               </el-popover>
             </template>
@@ -96,19 +170,34 @@ value: "orgName" ,noSort:true}} @事件 { getDataInit : {Function()}
       </div>
     </div>
     <div class="dialogPage" v-if="dialogPage" ref="page">
-      <el-pagination :current-page.sync="listInfo.query.current" :page-size="listInfo.query.size"
-        :total="listInfo.pageTotal" :page-sizes="[10, 20, 30, 40, 50, 100]"
-        layout="total, sizes, prev, pager, next, jumper, slot" @size-change="handleSizeChange"
-        @current-change="handleCurrentChange">
+      <el-pagination
+        :current-page.sync="listInfo.query.current"
+        :page-size="listInfo.query.size"
+        :total="listInfo.pageTotal"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        layout="total, sizes, prev, pager, next, jumper, slot"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      >
         <span class="el-pagination__jump page-option-wrap">
           <span v-if="showExportBtn">
-            <a class="el-icon-upload2 page-option-icon" href="javascript:;" @click="exportTable" title="导出">
+            <a
+              class="el-icon-upload2 page-option-icon"
+              href="javascript:;"
+              @click="exportTable"
+              title="导出"
+            >
             </a>
             <i class="split-line"></i>
           </span>
 
           <span>
-            <a class="el-icon-refresh page-option-icon" href="javascript:;" @click="refresh" title="刷新">
+            <a
+              class="el-icon-refresh page-option-icon"
+              href="javascript:;"
+              @click="refresh"
+              title="刷新"
+            >
             </a>
           </span>
         </span>
@@ -116,18 +205,34 @@ value: "orgName" ,noSort:true}} @事件 { getDataInit : {Function()}
     </div>
     <!-- 分页 -->
     <div class="page-wrap-fixed" v-if="page" id="page-wrap-fixed" ref="page">
-      <el-pagination :current-page.sync="listInfo.query.current" :page-size="listInfo.query.size"
-        :total="listInfo.pageTotal" :page-sizes="pageSizesCount" layout="total, sizes, prev, pager, next, jumper, slot"
-        @size-change="handleSizeChange" @current-change="handleCurrentChange">
+      <el-pagination
+        :current-page.sync="listInfo.query.current"
+        :page-size="listInfo.query.size"
+        :total="listInfo.pageTotal"
+        :page-sizes="pageSizesCount"
+        layout="total, sizes, prev, pager, next, jumper, slot"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      >
         <span class="el-pagination__jump page-option-wrap">
           <span>
-            <a class="page-option-icon" href="javascript:;" @click="refresh" title="刷新">
+            <a
+              class="page-option-icon"
+              href="javascript:;"
+              @click="refresh"
+              title="刷新"
+            >
               <!-- <img src="@static/img/7.png" /> -->
             </a>
           </span>
           <span v-if="showExportBtn">
             <i class="split-line"></i>
-            <a class="page-option-icon" href="javascript:;" @click="exportTable" title="导出">
+            <a
+              class="page-option-icon"
+              href="javascript:;"
+              @click="exportTable"
+              title="导出"
+            >
               <!-- <img src="@static/img/8.png" /> -->
             </a>
           </span>
@@ -138,6 +243,16 @@ value: "orgName" ,noSort:true}} @事件 { getDataInit : {Function()}
 </template>
 
 <script>
+function filterArray(item) {
+  const valueArray = this.rule.filter((prop) => {
+    return item[prop] === this.data[prop];
+  });
+  if (valueArray.length === this.rule.length) {
+    return true;
+  } else {
+    return false;
+  }
+}
 import elementResizeDetectorMaker from "element-resize-detector";
 import Sortable from "sortablejs";
 
@@ -168,7 +283,7 @@ export default {
     // 查询条件
     queryParam: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     // 获取数据的接口
     api: {
@@ -259,8 +374,8 @@ export default {
   components: {},
   data() {
     return {
-    // 是否开启闪烁
-    isFlicker:true,
+      // 是否开启闪烁
+      isFlicker: false,
       sortable: null,
       loading: false,
       colOptions: [],
@@ -283,6 +398,13 @@ export default {
       },
       pazeSizesCount1: [10, 20, 30, 40, 50, 100],
       colors: ["255, 0, 0", "0, 255, 0", "0, 0, 255", "255, 255, 0"], // 颜色数组
+              spanRule: {
+        rule: {
+          // 第一列取id字段，若与下一行数据一致则合并
+          0: ["id"],
+          1: ["name"],
+        },
+      },
     };
   },
   created() {
@@ -290,29 +412,47 @@ export default {
       this.getData(this.api);
     }
   },
-  mounted() {
-    if (this.sortDraw) {
-      // 列的拖拽初始化
-      this.columnDropInit();
-      // 行的拖拽初始化
-      this.rowDropInit();
+mounted() {
+  if (this.sortDraw) {
+    this.columnDropInit();
+    this.rowDropInit();
+  }
+
+  // 1. 新增：计算数据列的起始索引（跳过序号列、复选框列）
+  let startColumnIndex = 0;
+  if (this.showIndex) startColumnIndex++; // 序号列占1个索引
+  if (this.showCheckbox) startColumnIndex++; // 复选框列占1个索引
+  // 初始化合并规则（避免残留旧规则）
+  this.spanRule.rule = {};
+
+  // 2. 保留原有循环逻辑，补充合并规则绑定
+  for (let i = 0; i < this.fieldList.length; i++) {
+    const field = this.fieldList[i];
+    
+    // 原有逻辑1：收集所有字段名到colSelect（动态列候选池）
+    this.colSelect.push(field.name);
+
+    // 新增逻辑：为“当前字段”绑定正确的合并规则索引
+    // 仅当字段需要显示时（默认show=true，或被colOptions控制），才生成合并规则
+    if (field.show !== false) {
+      const targetColIndex = startColumnIndex + i; // 数据列的实际索引（跳过前面的固定列）
+      this.spanRule.rule[targetColIndex] = [field.value]; // 绑定字段的value（如batchName、unitCode）
     }
 
-    // this.watchSize();
-    // window.addEventListener('resize', this.watchSize)
-    for (let i = 0; i < this.fieldList.length; i++) {
-      this.colSelect.push(this.fieldList[i].name);
-      if (this.showColumnSetting) {
-        if (this.colSelect.length > Number(this.columnNum)) {
-          continue;
-        }
+    // 原有逻辑2：控制初始显示的列数（不超过columnNum）
+    if (this.showColumnSetting) {
+      if (this.colSelect.length > Number(this.columnNum)) {
+        continue; // 超过最大列数时，不加入colOptions（初始不显示）
       }
-      this.colOptions.push(this.fieldList[i].name);
     }
+    this.colOptions.push(field.name); // 初始显示的列名池
+  }
 
-  },
+  console.log(this.spanRule, '修正后的合并规则（含正确索引）');
+},
   computed: {},
   watch: {
+
     colOptions(colArr) {
       let self = this;
       for (let i in self.fieldList) {
@@ -336,6 +476,31 @@ export default {
     });
   },
   methods: {
+         objectSpanMethod({ row, column, rowIndex, columnIndex }, item) {
+      if (Object.keys(this.spanRule.rule).includes(columnIndex.toString())) {
+        // filter验证数组
+        const currentTable = {
+          rule: this.spanRule.rule[columnIndex],
+          data: item[rowIndex],
+        };
+        // 该单元格是否被合并 true 合并， false : 不合并
+        let chooseSpan = false;
+        if (rowIndex !== 0) {
+          chooseSpan = filterArray.call(currentTable, item[rowIndex - 1]);
+        }
+        if (chooseSpan) {
+          return {
+            rowspan: 0,
+            colspan: 0,
+          };
+        } else {
+          return {
+            rowspan: item.filter(filterArray, currentTable).length,
+            colspan: 1,
+          };
+        }
+      }
+    },
     columnDropInit() {
       // 第一步，获取列容器
       const wrapperColumn = document.querySelector(
@@ -377,7 +542,7 @@ export default {
     },
 
     rowClassName({ row, rowIndex }) {
-      if(this.isFlicker){
+      if (this.isFlicker) {
         if (rowIndex % 2 === 1) {
           return "flicker-blue";
         } else {
@@ -566,11 +731,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+::v-deep
+  .el-table--striped
+  .el-table__body
+  tr.el-table__row--striped
+  td.el-table__cell {
   background-color: transparent;
 }
 ::v-deep .el-table__body .el-table__row.hover-row td {
-	background-color: transparent
+  background-color: transparent;
 }
 /* CSS */
 ::v-deep {
@@ -596,7 +765,6 @@ export default {
   }
 
   @keyframes flickerAnimation {
-
     /* Animation styles */
     0%,
     100% {
@@ -640,8 +808,6 @@ export default {
     }
   }
 }
-
-
 
 .dialogPage {
   padding: 10px 0;
@@ -698,7 +864,7 @@ export default {
   .left {
     float: left;
 
-    >>>.el-button--primary {
+    >>> .el-button--primary {
       width: 120px;
       height: 32px;
       border-radius: 2px;
@@ -708,7 +874,7 @@ export default {
   .right {
     float: right;
 
-    >>>.el-button {
+    >>> .el-button {
       width: 120px;
       height: 32px;
       border-radius: 2px;
@@ -745,7 +911,7 @@ export default {
   font-size: 13px !important;
 }
 
-.table-wrap>>>.table-header {
+.table-wrap >>> .table-header {
   background-color: #f1f1f1;
   color: #232323;
   font-weight: bold;
@@ -755,12 +921,15 @@ export default {
   }
 }
 
-.table-wrap>>>.table-body-td {
+.table-wrap >>> .table-body-td {
   color: #232323;
   padding: 3px 0;
 }
 
->>>.el-table--striped .el-table__body tr.el-table__row--striped.el-table__row--striped.el-table__row--striped td {
+>>> .el-table--striped
+  .el-table__body
+  tr.el-table__row--striped.el-table__row--striped.el-table__row--striped
+  td {
   background-color: #f7f7f7 !important;
   /*替换为你需要的颜色，觉得优先级不够就加!important*/
 }
